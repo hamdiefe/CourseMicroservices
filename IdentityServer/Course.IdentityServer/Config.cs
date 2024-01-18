@@ -16,8 +16,6 @@ namespace Course.IdentityServer
             new ApiResource(IdentityServer4.IdentityServerConstants.LocalApi.ScopeName)
         };
 
-
-
         public static IEnumerable<IdentityResource> IdentityResources =>
                    new IdentityResource[]
                    {
