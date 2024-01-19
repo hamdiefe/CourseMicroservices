@@ -58,7 +58,7 @@ namespace Course.IdentityServer
                             UserName = "hamdiefe",
                             Email = "hamdi.efe@outlook.com",
                             City = "Ankara"
-                        },"123qwe").Wait();
+                        },"Password.123@").Wait();
                     }
                 }
 
