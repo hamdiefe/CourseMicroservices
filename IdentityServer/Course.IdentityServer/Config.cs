@@ -36,7 +36,7 @@ namespace Course.IdentityServer
             {
                 new ApiScope("catalog_fullpermission","Catalog API için full erişim"),
                 new ApiScope("photo_stock_fullpermission","Photo Stock API için full erişim"),
-                new ApiScope(IdentityServer4.IdentityServerConstants.LocalApi.ScopeName),
+                new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
             };
 
         public static IEnumerable<Client> Clients =>
@@ -50,7 +50,7 @@ namespace Course.IdentityServer
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes = { "catalog_fullpermission",
                                       "photo_stock_fullpermission",
-                                      IdentityServer4.IdentityServerConstants.LocalApi.ScopeName}
+                                      IdentityServerConstants.LocalApi.ScopeName}
                 },
                 new Client
                 {
@@ -63,6 +63,7 @@ namespace Course.IdentityServer
                                       IdentityServerConstants.StandardScopes.OpenId,
                                       IdentityServerConstants.StandardScopes.Profile,
                                       IdentityServerConstants.StandardScopes.OfflineAccess,
+                                      IdentityServerConstants.LocalApi.ScopeName,
                                       "roles"},
                     AccessTokenLifetime = 1 * 60 * 60,
                     RefreshTokenExpiration = TokenExpiration.Absolute,
