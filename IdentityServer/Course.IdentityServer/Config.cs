@@ -2,8 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer4;
 using IdentityServer4.Models;
+using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 namespace Course.IdentityServer
 {
@@ -19,7 +22,13 @@ namespace Course.IdentityServer
         public static IEnumerable<IdentityResource> IdentityResources =>
                    new IdentityResource[]
                    {
-
+                       new IdentityResources.Email(),
+                       new IdentityResources.OpenId(),
+                       new IdentityResources.Profile(),
+                       new IdentityResource() {Name = "roles" ,
+                                               DisplayName = "Roles",
+                                               Description = "Kullanıcı Rolleri", 
+                                               UserClaims = new []{"role" }}
                    };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -35,13 +44,29 @@ namespace Course.IdentityServer
             {
                 new Client
                 {
-                    ClientName = "Mvc Web Apllication",
+                    ClientName = "Mvc Web Application",
                     ClientId = "WebMvcClient",
                     ClientSecrets = {new Secret ("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes = { "catalog_fullpermission",
                                       "photo_stock_fullpermission",
                                       IdentityServer4.IdentityServerConstants.LocalApi.ScopeName}
+                },
+                new Client
+                {
+                    ClientName = "Mvc Web Application",
+                    ClientId = "WebMvcClientForUser",
+                    ClientSecrets = {new Secret ("secret".Sha256())},
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    AllowedScopes = { IdentityServerConstants.StandardScopes.Email,
+                                      IdentityServerConstants.StandardScopes.OpenId,
+                                      IdentityServerConstants.StandardScopes.Profile,
+                                      IdentityServerConstants.StandardScopes.OfflineAccess,
+                                      "roles"},
+                    AccessTokenLifetime = 1 * 60 * 60,
+                    RefreshTokenExpiration = TokenExpiration.Absolute,
+                    AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60) - DateTime.Now ).TotalSeconds,
+                    RefreshTokenUsage = TokenUsage.ReUse
                 }
             };
     }
