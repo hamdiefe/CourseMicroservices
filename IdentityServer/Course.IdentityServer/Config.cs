@@ -56,6 +56,7 @@ namespace Course.IdentityServer
                 {
                     ClientName = "Mvc Web Application",
                     ClientId = "WebMvcClientForUser",
+                    AllowOfflineAccess = true,
                     ClientSecrets = {new Secret ("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowedScopes = { IdentityServerConstants.StandardScopes.Email,
