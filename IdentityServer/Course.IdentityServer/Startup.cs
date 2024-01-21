@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Course.IdentityServer.Services;
 
 namespace Course.IdentityServer
 {
@@ -56,7 +57,7 @@ namespace Course.IdentityServer
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
-
+            builder.AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
