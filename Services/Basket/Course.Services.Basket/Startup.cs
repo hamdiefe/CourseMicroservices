@@ -1,8 +1,11 @@
 using Course.Services.Basket.Services;
 using Course.Services.Basket.Settings;
 using Course.Shared.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +26,14 @@ namespace Course.Services.Basket
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.Authority = Configuration["IdendityServerUrl"];
+                options.Audience = "resource_catalog";
+                options.RequireHttpsMetadata = false;
+            });
+
+
             services.Configure<RedisSettings>(Configuration.GetSection("RedisSettings"));
 
             services.AddHttpContextAccessor();
@@ -37,7 +48,14 @@ namespace Course.Services.Basket
                 return redis;
             });
 
-            services.AddControllers();
+            //User zorunlu olduðu için user authorization policy oluþturuldu ve addcontrollers metotuna verildi.
+            var requiredAuthorizationPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+
+            services.AddControllers(opt =>
+            {
+                opt.Filters.Add(new AuthorizeFilter(requiredAuthorizationPolicy));
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Course.Services.Basket", Version = "v1" });
@@ -56,6 +74,7 @@ namespace Course.Services.Basket
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
