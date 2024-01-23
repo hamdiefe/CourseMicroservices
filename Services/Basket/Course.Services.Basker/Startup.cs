@@ -22,9 +22,9 @@ namespace Course.Services.Basket
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<RedisSettings>(Configuration.GetSection("RedisSettings"));
+            services.Configure<RedisSettings>(Configuration.GetSection("RedisSettings"));           
 
-            services.AddSingleton<RedisService>(sp =>
+            services.AddSingleton<IRedisService, RedisService>(sp =>
             {
                 var redisSettings = sp.GetRequiredService<IOptions<RedisSettings>>().Value;
                 var redis = new RedisService(redisSettings.Host, redisSettings.Port);

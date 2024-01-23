@@ -2,7 +2,7 @@
 
 namespace Course.Services.Basket.Services
 {
-    public class RedisService
+    public class RedisService : IRedisService
     {
         private readonly string _host;
         private readonly int _port;

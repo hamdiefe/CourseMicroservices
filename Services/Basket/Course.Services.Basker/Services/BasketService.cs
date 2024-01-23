@@ -7,9 +7,9 @@ namespace Course.Services.Basket.Services
 {
     public class BasketService : IBasketService
     {
-        private readonly RedisService _redisService;
+        private readonly IRedisService _redisService;
 
-        public BasketService(RedisService redisService)
+        public BasketService(IRedisService redisService)
         {
             _redisService = redisService;
         }
