@@ -1,5 +1,6 @@
 using Course.Services.Basket.Services;
 using Course.Services.Basket.Settings;
+using Course.Shared.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +23,11 @@ namespace Course.Services.Basket
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<RedisSettings>(Configuration.GetSection("RedisSettings"));           
+            services.Configure<RedisSettings>(Configuration.GetSection("RedisSettings"));
+
+            services.AddHttpContextAccessor();
+
+            services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 
             services.AddSingleton<IRedisService, RedisService>(sp =>
             {
