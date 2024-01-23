@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Course.Services.Basket
 {
@@ -29,11 +30,11 @@ namespace Course.Services.Basket
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.Authority = Configuration["IdendityServerUrl"];
-                options.Audience = "resource_catalog";
+                options.Audience = "resource_basket";
                 options.RequireHttpsMetadata = false;
             });
 
-
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
             services.Configure<RedisSettings>(Configuration.GetSection("RedisSettings"));
 
             services.AddHttpContextAccessor();
@@ -45,6 +46,7 @@ namespace Course.Services.Basket
             {
                 var redisSettings = sp.GetRequiredService<IOptions<RedisSettings>>().Value;
                 var redis = new RedisService(redisSettings.Host, redisSettings.Port);
+                redis.Connect();
                 return redis;
             });
 

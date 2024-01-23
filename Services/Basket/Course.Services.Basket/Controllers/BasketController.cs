@@ -4,6 +4,7 @@ using Course.Shared.ControllerBases;
 using Course.Shared.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Course.Services.Basket.Controllers
@@ -31,6 +32,7 @@ namespace Course.Services.Basket.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveOrUpdateBasket(BasketDto basket)
         {
+            basket.UserId = basket.UserId == "" ? _sharedIdentityService.GetUserId : basket.UserId;
             return CreateActionResultInstance(await _basketService.SaveOrUpdateBasket(basket));
         }
 

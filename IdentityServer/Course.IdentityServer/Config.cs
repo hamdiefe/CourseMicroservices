@@ -6,7 +6,6 @@ using IdentityServer4;
 using IdentityServer4.Models;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
 
 namespace Course.IdentityServer
 {
@@ -15,7 +14,8 @@ namespace Course.IdentityServer
         public static IEnumerable<ApiResource> ApiResources => new ApiResource[]
         {
             new ApiResource("resource_catalog",""){Scopes = {"catalog_fullpermission"}},
-            new ApiResource("photo_stock_catalog",""){Scopes = {"photo_stock_fullpermission"}},
+            new ApiResource("resource_photo_stock",""){Scopes = {"photo_stock_fullpermission"}},
+            new ApiResource("resource_basket",""){Scopes = {"basket_fullpermission"}},
             new ApiResource(IdentityServer4.IdentityServerConstants.LocalApi.ScopeName)
         };
 
@@ -36,6 +36,7 @@ namespace Course.IdentityServer
             {
                 new ApiScope("catalog_fullpermission","Catalog API için full erişim"),
                 new ApiScope("photo_stock_fullpermission","Photo Stock API için full erişim"),
+                new ApiScope("basket_fullpermission","Basket API için full erişim"),
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
             };
 
@@ -64,7 +65,8 @@ namespace Course.IdentityServer
                                       IdentityServerConstants.StandardScopes.Profile,
                                       IdentityServerConstants.StandardScopes.OfflineAccess,
                                       IdentityServerConstants.LocalApi.ScopeName,
-                                      "roles"},
+                                      "roles",
+                                      "basket_fullpermission"},
                     AccessTokenLifetime = 1 * 60 * 60,
                     RefreshTokenExpiration = TokenExpiration.Absolute,
                     AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60) - DateTime.Now ).TotalSeconds,
