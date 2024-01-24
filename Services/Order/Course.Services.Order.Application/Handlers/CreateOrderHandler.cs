@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Course.Services.Order.Application.Handlers
 {
-    class CreateOrderHandler : IRequestHandler<CreateOrderCommand, Response<CreatedOrderDto>>
+    public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, Response<CreatedOrderDto>>
     {
         private readonly OrderDbContext _dbContext;
 

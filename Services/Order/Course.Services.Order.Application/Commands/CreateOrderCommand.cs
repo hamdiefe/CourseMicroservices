@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Course.Services.Order.Application.Queries
 {
-    class CreateOrderCommand : IRequest<Response<CreatedOrderDto>>
+    public class CreateOrderCommand : IRequest<Response<CreatedOrderDto>>
     {
         public string BuyerId { get; set; }
 

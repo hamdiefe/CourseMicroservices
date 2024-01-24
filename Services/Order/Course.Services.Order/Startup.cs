@@ -1,6 +1,10 @@
+using Course.Services.Order.Infrastructure;
+using Course.Shared.Services;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +29,18 @@ namespace Course.Services.Order
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<OrderDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),configure =>
+                {
+                    configure.MigrationsAssembly("Course.Services.Order.Infrastructure");
+                });
+            });
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<ISharedIdentityService, SharedIdentityService>();
+
+            services.AddMediatR(typeof(Application.Handlers.CreateOrderHandler).Assembly);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

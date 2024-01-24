@@ -7,6 +7,9 @@ namespace Course.Services.Order.Domain.OrderAggregate
 {
     public class Order : Entity, IAggregateRoot
     {
+        public Order()
+        {                
+        }
         public Order(Address address, string buyerId)
         {
             CreatedOn = DateTime.Now;
