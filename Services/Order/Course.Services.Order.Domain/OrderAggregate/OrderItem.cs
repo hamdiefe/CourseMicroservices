@@ -1,4 +1,5 @@
 ﻿using Course.Services.Order.Domain.Core;
+using System;
 
 namespace Course.Services.Order.Domain.OrderAggregate
 {
@@ -15,7 +16,7 @@ namespace Course.Services.Order.Domain.OrderAggregate
         public string ProductId { get; private set; }
         public string ProductName { get; private set; }
         public string PictureUrl { get; private set; }
-        public decimal Price { get; private set; }
+        public Decimal Price { get; private set; }
 
         public void UpdateOrderItem(string productId, string productName, string pictureUrl, decimal price)
         {
