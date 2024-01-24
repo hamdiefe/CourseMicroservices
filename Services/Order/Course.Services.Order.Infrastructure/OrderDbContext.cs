@@ -1,10 +1,4 @@
-﻿using Course.Services.Order.Domain.OrderAggregate;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Course.Services.Order.Infrastructure
 {
@@ -17,7 +11,7 @@ namespace Course.Services.Order.Infrastructure
 
         }
 
-        public DbSet<Domain.OrderAggregate.Order> Order { get; set; }
+        public DbSet<Domain.OrderAggregate.Order> Orders { get; set; }
 
         public DbSet<Domain.OrderAggregate.OrderItem> OrderItems { get; set; }
 
