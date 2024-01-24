@@ -16,6 +16,7 @@ namespace Course.IdentityServer
             new ApiResource("resource_catalog",""){Scopes = {"catalog_fullpermission"}},
             new ApiResource("resource_photo_stock",""){Scopes = {"photo_stock_fullpermission"}},
             new ApiResource("resource_basket",""){Scopes = {"basket_fullpermission"}},
+            new ApiResource("resource_discount",""){Scopes = {"discount_fullpermission"}},
             new ApiResource(IdentityServer4.IdentityServerConstants.LocalApi.ScopeName)
         };
 
@@ -37,6 +38,7 @@ namespace Course.IdentityServer
                 new ApiScope("catalog_fullpermission","Catalog API için full erişim"),
                 new ApiScope("photo_stock_fullpermission","Photo Stock API için full erişim"),
                 new ApiScope("basket_fullpermission","Basket API için full erişim"),
+                new ApiScope("discount_fullpermission","Discount API için full erişim"),
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
             };
 
@@ -66,7 +68,8 @@ namespace Course.IdentityServer
                                       IdentityServerConstants.StandardScopes.OfflineAccess,
                                       IdentityServerConstants.LocalApi.ScopeName,
                                       "roles",
-                                      "basket_fullpermission"},
+                                      "basket_fullpermission",
+                                      "discount_fullpermission"},
                     AccessTokenLifetime = 1 * 60 * 60,
                     RefreshTokenExpiration = TokenExpiration.Absolute,
                     AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60) - DateTime.Now ).TotalSeconds,

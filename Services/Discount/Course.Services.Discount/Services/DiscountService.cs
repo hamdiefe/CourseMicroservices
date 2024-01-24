@@ -37,9 +37,9 @@ namespace Course.Services.Discount.Services
             return Response<List<Models.Discount>>.Success(discounts.ToList(), 200);
         }
 
-        public async Task<Response<Models.Discount>> GetByCodeAndUserId(string code, int id)
+        public async Task<Response<Models.Discount>> GetByCodeAndUserId(string code, string userId)
         {
-            var discount = await _connection.QuerySingleOrDefaultAsync<Models.Discount>("select top(1) * from discount where id=@Id and code=@Code", new { Id = id, Code = code });
+            var discount = await _connection.QuerySingleOrDefaultAsync<Models.Discount>("select top(1) * from discount where userId=@UserId and code=@Code", new { UserId = userId, Code = code });
 
             return discount == null ? Response<Models.Discount>.Fail("Discount not found", 404)
                                     : Response<Models.Discount>.Success(discount, 200);
