@@ -1,14 +1,10 @@
-﻿using AutoMapper;
-using Course.Services.Order.Application.Dtos;
+﻿using Course.Services.Order.Application.Dtos;
 using Course.Services.Order.Application.Mapping;
 using Course.Services.Order.Application.Queries;
 using Course.Services.Order.Domain.OrderAggregate;
 using Course.Services.Order.Infrastructure;
 using Course.Shared.Dtos;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
