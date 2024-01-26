@@ -1,4 +1,5 @@
-﻿using Course.Shared.Dtos;
+﻿using Course.Services.Discount.Dtos;
+using Course.Shared.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,16 +7,16 @@ namespace Course.Services.Discount.Services
 {
     public interface IDiscountService
     {
-        Task<Response<List<Models.Discount>>> GetAll();
+        Task<Response<List<DiscountDto>>> GetAll();
 
-        Task<Response<Models.Discount>> GetById(int id);
+        Task<Response<DiscountDto>> GetById(int id);
 
-        Task<Response<NoContent>> Save(Models.Discount discount);
+        Task<Response<NoContent>> Save(DiscountCreateDto discount);
 
-        Task<Response<NoContent>> Update(Models.Discount discount);
+        Task<Response<NoContent>> Update(DiscountUpdateDto discount);
 
         Task<Response<NoContent>> Delete(int id);
 
-        Task<Response<Models.Discount>> GetByCodeAndUserId(string code, string userId);
+        Task<Response<DiscountDto>> GetByCodeAndUserId(string code, string userId);
     }
 }

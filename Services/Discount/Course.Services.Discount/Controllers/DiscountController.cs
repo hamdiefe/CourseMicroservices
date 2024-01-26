@@ -1,4 +1,5 @@
-﻿using Course.Services.Discount.Services;
+﻿using Course.Services.Discount.Dtos;
+using Course.Services.Discount.Services;
 using Course.Shared.ControllerBases;
 using Course.Shared.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -45,13 +46,13 @@ namespace Course.Services.Discount.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save(Models.Discount discount)
+        public async Task<IActionResult> Save(DiscountCreateDto discountCreateDto)
         {
-            return CreateActionResultInstance(await _discountService.Save(discount));
+            return CreateActionResultInstance(await _discountService.Save(discountCreateDto));
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(Models.Discount discount)
+        public async Task<IActionResult> Update(DiscountUpdateDto discount)
         {
             return CreateActionResultInstance(await _discountService.Update(discount));
         }
