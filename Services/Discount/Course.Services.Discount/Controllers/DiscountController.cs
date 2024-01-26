@@ -1,8 +1,6 @@
-﻿using Course.Services.Discount.Models;
-using Course.Services.Discount.Services;
+﻿using Course.Services.Discount.Services;
 using Course.Shared.ControllerBases;
 using Course.Shared.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

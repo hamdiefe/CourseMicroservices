@@ -1,8 +1,5 @@
-﻿using Course.Services.Discount.Models;
-using Course.Shared.Dtos;
+﻿using Course.Shared.Dtos;
 using Dapper;
-using Dapper.Contrib.Extensions;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System.Collections.Generic;
@@ -17,7 +14,7 @@ namespace Course.Services.Discount.Services
         private readonly IConfiguration _configuration;
         private readonly IDbConnection _connection;
 
-        public DiscountService(IConfiguration configuration, IDbConnection connection)
+        public DiscountService(IConfiguration configuration)
         {
             _configuration = configuration;
             _connection = new NpgsqlConnection(_configuration.GetConnectionString("PostgreSql"));
