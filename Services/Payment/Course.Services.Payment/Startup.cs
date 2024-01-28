@@ -1,19 +1,21 @@
-using Course.Services.Order.Infrastructure;
-using Course.Shared.Services;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Course.Services.Order
+namespace Course.Services.Payment
 {
     public class Startup
     {
@@ -27,35 +29,24 @@ namespace Course.Services.Order
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                options.Authority = Configuration["IdentityServerUrl"];
-                options.Audience = "resource_order";
+                options.Authority = Configuration["IdendityServerUrl"];
+                options.Audience = "resource_payment";
                 options.RequireHttpsMetadata = false;
             });
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
 
-            services.AddDbContext<OrderDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),configure =>
-                {
-                    configure.MigrationsAssembly("Course.Services.Order.Infrastructure");
-                });
-            });
+            var requiredAuthorizationPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
 
-            services.AddHttpContextAccessor();
-            services.AddScoped<ISharedIdentityService, SharedIdentityService>();
-
-            services.AddMediatR(typeof(Application.Handlers.CreateOrderHandler).Assembly);
             services.AddControllers(opt =>
             {
-                opt.Filters.Add(new AuthorizeFilter(requireAuthorizePolicy));
+                opt.Filters.Add(new AuthorizeFilter(requiredAuthorizationPolicy));
             });
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Course.Services.Order", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Course.Services.Payment", Version = "v1" });
             });
         }
 
@@ -66,11 +57,10 @@ namespace Course.Services.Order
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Course.Services.Order v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Course.Services.Payment v1"));
             }
 
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
