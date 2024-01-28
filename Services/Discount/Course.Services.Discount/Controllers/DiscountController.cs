@@ -46,9 +46,9 @@ namespace Course.Services.Discount.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save(DiscountCreateDto discountCreateDto)
+        public async Task<IActionResult> Save(DiscountCreateDto discount)
         {
-            return CreateActionResultInstance(await _discountService.Save(discountCreateDto));
+            return CreateActionResultInstance(await _discountService.Save(discount));
         }
 
         [HttpPut]
