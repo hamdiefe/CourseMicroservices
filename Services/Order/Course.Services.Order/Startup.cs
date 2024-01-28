@@ -27,16 +27,13 @@ namespace Course.Services.Order
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                options.Authority = Configuration["IdentityServerUrl"];
+                options.Authority = Configuration["IdendityServerUrl"];
                 options.Audience = "resource_order";
                 options.RequireHttpsMetadata = false;
             });
-
-
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
             services.AddDbContext<OrderDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),configure =>
@@ -49,9 +46,11 @@ namespace Course.Services.Order
             services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 
             services.AddMediatR(typeof(Application.Handlers.CreateOrderHandler).Assembly);
+            var requiredAuthorizationPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+
             services.AddControllers(opt =>
             {
-                opt.Filters.Add(new AuthorizeFilter(requireAuthorizePolicy));
+                opt.Filters.Add(new AuthorizeFilter(requiredAuthorizationPolicy));
             });
             services.AddSwaggerGen(c =>
             {

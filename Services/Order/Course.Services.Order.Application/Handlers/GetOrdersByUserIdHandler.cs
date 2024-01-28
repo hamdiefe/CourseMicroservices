@@ -25,7 +25,7 @@ namespace Course.Services.Order.Application.Handlers
         {
             var orders = await _dbContext.Orders.Include(x=>x.OrderItems).Where(x=>x.BuyerId == request.UserId).ToListAsync();
 
-            return orders.Any() ? Response<List<OrderDto>>.Success(new List<OrderDto>(), 200) 
+            return !orders.Any() ? Response<List<OrderDto>>.Success(new List<OrderDto>(), 200) 
                                 : Response<List<OrderDto>>.Success(ObjectMapper.Mapper.Map<List<OrderDto>>(orders), 200);
         }
     }
