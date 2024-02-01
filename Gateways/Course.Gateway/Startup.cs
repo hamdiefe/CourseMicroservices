@@ -29,7 +29,7 @@ namespace Course.Gateway
                 app.UseDeveloperExceptionPage();
             }
 
-            await app.UseOcelot();
+           await app.UseOcelot();
         }
     }
 }
