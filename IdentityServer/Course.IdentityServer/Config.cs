@@ -19,6 +19,7 @@ namespace Course.IdentityServer
             new ApiResource("resource_discount"){Scopes = {"discount_fullpermission"}},
             new ApiResource("resource_order"){Scopes = {"order_fullpermission"}},
             new ApiResource("resource_payment"){Scopes = {"payment_fullpermission"}},
+            new ApiResource("resource_gateway"){Scopes = {"gateway_fullpermission"}},
 
             new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
         };
@@ -44,6 +45,7 @@ namespace Course.IdentityServer
                 new ApiScope("discount_fullpermission","Discount API için full erişim"),
                 new ApiScope("order_fullpermission","Order API için full erişim"),
                 new ApiScope("payment_fullpermission","Payment API için full erişim"),
+                new ApiScope("gateway_fullpermission","Gateway API için full erişim"),
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
             };
 
@@ -58,6 +60,7 @@ namespace Course.IdentityServer
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes = { "catalog_fullpermission",
                                       "photo_stock_fullpermission",
+                                      "gateway_fullpermission",
                                       IdentityServerConstants.LocalApi.ScopeName}
                 },
                 new Client
@@ -76,7 +79,8 @@ namespace Course.IdentityServer
                                       "basket_fullpermission",
                                       "discount_fullpermission",
                                       "order_fullpermission",
-                                      "payment_fullpermission",},
+                                      "payment_fullpermission",
+                                      "gateway_fullpermission"},
                     AccessTokenLifetime = 1 * 60 * 60,
                     RefreshTokenExpiration = TokenExpiration.Absolute,
                     AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60) - DateTime.Now ).TotalSeconds,

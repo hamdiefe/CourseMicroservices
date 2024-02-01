@@ -28,7 +28,7 @@ namespace Course.Services.Catalog
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                options.Authority = Configuration["IdendityServerUrl"];
+                options.Authority = Configuration["IdentityServerUrl"];
                 options.Audience = "resource_catalog";
                 options.RequireHttpsMetadata = false;
             });

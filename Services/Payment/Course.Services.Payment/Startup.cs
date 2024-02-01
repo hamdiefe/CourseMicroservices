@@ -31,7 +31,7 @@ namespace Course.Services.Payment
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                options.Authority = Configuration["IdendityServerUrl"];
+                options.Authority = Configuration["IdentityServerUrl"];
                 options.Audience = "resource_payment";
                 options.RequireHttpsMetadata = false;
             });

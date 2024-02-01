@@ -27,7 +27,7 @@ namespace Course.Services.Discount
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                options.Authority = Configuration["IdendityServerUrl"];
+                options.Authority = Configuration["IdentityServerUrl"];
                 options.Audience = "resource_discount";
                 options.RequireHttpsMetadata = false;
             });

@@ -29,7 +29,7 @@ namespace Course.Services.Order
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                options.Authority = Configuration["IdendityServerUrl"];
+                options.Authority = Configuration["IdentityServerUrl"];
                 options.Audience = "resource_order";
                 options.RequireHttpsMetadata = false;
             });

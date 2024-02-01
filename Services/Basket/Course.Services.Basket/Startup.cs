@@ -29,7 +29,7 @@ namespace Course.Services.Basket
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                options.Authority = Configuration["IdendityServerUrl"];
+                options.Authority = Configuration["IdentityServerUrl"];
                 options.Audience = "resource_basket";
                 options.RequireHttpsMetadata = false;
             });
