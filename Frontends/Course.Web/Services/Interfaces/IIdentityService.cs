@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Course.Web.Services.Interfaces
 {
-	interface IIdentityService
+	public interface IIdentityService
 	{
 		Task<Response<bool>> SignIn(SignInInput signInInput);
 

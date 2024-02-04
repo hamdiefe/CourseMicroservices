@@ -35,25 +35,88 @@ namespace Course.Web.Services
 			_serviceApiSettings = serviceApiSettings.Value;
 		}
 
-		public Task<TokenResponse> GetAccessTokenByRefreshToken()
+		public async Task<TokenResponse> GetAccessTokenByRefreshToken()
 		{
-			throw new System.NotImplementedException();
-		}
+            var discovery = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            {
+                Address = _serviceApiSettings.IdentityBaseUrl,
+                Policy = new DiscoveryPolicy { RequireHttps = false }
+            });
 
-		public Task RevokeRefreshToken()
+            if (discovery.IsError)
+            {
+                throw discovery.Exception;
+            }
+
+            var refreshToken = await _contextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+
+            RefreshTokenRequest refreshTokenRequest = new()
+            {
+                ClientId = _clientSettings.WebClientForUser.ClientId,
+                ClientSecret = _clientSettings.WebClientForUser.ClientSecret,
+                RefreshToken = refreshToken,
+                Address = discovery.TokenEndpoint
+            };
+
+            var token = await _httpClient.RequestRefreshTokenAsync(refreshTokenRequest);
+
+            if (token.IsError)
+            {
+                return null;
+            }
+
+            var authenticationTokens = new List<AuthenticationToken>()
+            {
+                new AuthenticationToken{ Name=OpenIdConnectParameterNames.AccessToken,Value=token.AccessToken},
+                new AuthenticationToken{ Name=OpenIdConnectParameterNames.RefreshToken,Value=token.RefreshToken},
+                new AuthenticationToken{ Name=OpenIdConnectParameterNames.ExpiresIn,Value= DateTime.Now.AddSeconds(token.ExpiresIn).ToString("o",CultureInfo.InvariantCulture)}
+            };
+
+            var authenticationResult = await _contextAccessor.HttpContext.AuthenticateAsync();
+
+            var properties = authenticationResult.Properties;
+            properties.StoreTokens(authenticationTokens);
+
+            await _contextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, authenticationResult.Principal, properties);
+
+            return token;
+        }
+
+		public async Task RevokeRefreshToken()
 		{
-			throw new System.NotImplementedException();
-		}
+            var discovery = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            {
+                Address = _serviceApiSettings.IdentityBaseUrl,
+                Policy = new DiscoveryPolicy { RequireHttps = false }
+            });
+
+            if (discovery.IsError)
+            {
+                throw discovery.Exception;
+            }
+            var refreshToken = await _contextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+
+            TokenRevocationRequest tokenRevocationRequest = new()
+            {
+                ClientId = _clientSettings.WebClientForUser.ClientId,
+                ClientSecret = _clientSettings.WebClientForUser.ClientSecret,
+                Address = discovery.RevocationEndpoint,
+                Token = refreshToken,
+                TokenTypeHint = "refresh_token"
+            };
+
+            await _httpClient.RevokeTokenAsync(tokenRevocationRequest);
+        }
 
 		public async Task<Response<bool>> SignIn(SignInInput signInInput)
 		{
-			var discovery = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
-			{
-				Address = _serviceApiSettings.BaseUrl,
-				Policy = new DiscoveryPolicy { RequireHttps =false}
-			});
+            var discovery = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            {
+                Address = _serviceApiSettings.IdentityBaseUrl,
+                Policy = new DiscoveryPolicy { RequireHttps = false }
+            });
 
-			if (discovery.IsError)			
+            if (discovery.IsError)			
 				throw discovery.Exception;
 
 			var passwordTokenRequest = new PasswordTokenRequest
@@ -74,7 +137,7 @@ namespace Course.Web.Services
 
 				var errorDto = JsonSerializer.Deserialize<ErrorDto>(responseContent,new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
 
-				return Response<bool>.Fail(errorDto.Errors,404);
+				return Response<bool>.Fail(errorDto.Errors,400);
 			}
 
 			var userInfoRequest = new UserInfoRequest
