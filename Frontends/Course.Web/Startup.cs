@@ -1,3 +1,4 @@
+using Course.Shared.Services;
 using Course.Web.Handler;
 using Course.Web.Models;
 using Course.Web.Services;
@@ -28,13 +29,13 @@ namespace Course.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
             services.Configure<ServiceApiSettings>(Configuration.GetSection("ServiceApiSettings"));
             services.Configure<ClientSettings>(Configuration.GetSection("ClientSettings"));
             services.AddHttpContextAccessor();
+            services.AddAccessTokenManagement();
             services.AddScoped<ResourceOwnerPasswordTokenHandler>();
             services.AddScoped<ClientCredentialTokenHandler>();
+            services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 
 
             var serviceApiSettings = Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
@@ -48,8 +49,6 @@ namespace Course.Web
             {
                 opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUrl}/{serviceApiSettings.Catalog.Path}");
             }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opts =>
             {
                 opts.LoginPath = "/Auth/SignIn";

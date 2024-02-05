@@ -23,7 +23,8 @@ namespace Course.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _catalogService.GetAllCourseByUserIdAsync(_sharedIdentityService.GetUserId));
+            var result = await _catalogService.GetAllCourseByUserIdAsync(_sharedIdentityService.GetUserId);
+            return View(result);
         }
 
         public async Task<IActionResult> Create()

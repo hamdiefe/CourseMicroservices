@@ -57,7 +57,7 @@ namespace Course.Web.Services
 
         public async Task<List<CourseViewModel>> GetAllCourseByUserIdAsync(string userId)
         {
-            var response = await _client.GetAsync($"courses/getallbyuserid/{userId}");
+            var response = await _client.GetAsync($"courses/GetAllByUserId/{userId}");
 
             if (!response.IsSuccessStatusCode)
                 return null;
