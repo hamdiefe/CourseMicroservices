@@ -34,6 +34,8 @@ namespace Course.Web
             services.Configure<ClientSettings>(Configuration.GetSection("ClientSettings"));
             services.AddHttpContextAccessor();
             services.AddScoped<ResourceOwnerPasswordTokenHandler>();
+            services.AddScoped<ClientCredentialTokenHandler>();
+
 
             var serviceApiSettings = Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
             services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
@@ -42,11 +44,10 @@ namespace Course.Web
             {
                 opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUrl);
             }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
             services.AddHttpClient<ICatalogService, CatalogService>(opt =>
             {
                 opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUrl}/{serviceApiSettings.Catalog.Path}");
-            });
+            }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
 
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opts =>
