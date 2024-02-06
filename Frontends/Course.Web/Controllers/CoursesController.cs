@@ -30,9 +30,7 @@ namespace Course.Web.Controllers
         public async Task<IActionResult> Create()
         {
             var categories = await _catalogService.GetAllCategoryAsync();
-
             ViewBag.categoryList = new SelectList(categories, "Id", "Name");
-
             return View();
         }
 
@@ -43,7 +41,7 @@ namespace Course.Web.Controllers
             ViewBag.categoryList = new SelectList(categories, "Id", "Name");
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(courseCreateInput);
             }
             courseCreateInput.UserId = _sharedIdentityService.GetUserId;
 
@@ -85,7 +83,7 @@ namespace Course.Web.Controllers
             ViewBag.categoryList = new SelectList(categories, "Id", "Name", courseUpdateInput.Id);
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(courseUpdateInput);
             }
             await _catalogService.UpdateCourseAsync(courseUpdateInput);
 

@@ -26,7 +26,7 @@ namespace Course.Web.Services
 
         public async Task<bool> DeleteCourseAsync(string courseId)
         {
-            var response = await _client.DeleteAsync($"courses/{courseId}");
+            var response = await _client.DeleteAsync($"courses/?id={courseId}");
 
             return response.IsSuccessStatusCode;
         }
