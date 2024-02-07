@@ -32,7 +32,7 @@ namespace Course.Services.Basket.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveOrUpdateBasket(BasketDto basket)
         {
-            basket.UserId = basket.UserId == "" ? _sharedIdentityService.GetUserId : basket.UserId;
+            basket.UserId = String.IsNullOrEmpty(basket.UserId) ? _sharedIdentityService.GetUserId : basket.UserId;
             return CreateActionResultInstance(await _basketService.SaveOrUpdateBasket(basket));
         }
 

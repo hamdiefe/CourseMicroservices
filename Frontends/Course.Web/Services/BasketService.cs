@@ -66,7 +66,7 @@ namespace Course.Web.Services
 
         public async Task<BasketViewModel> Get()
         {
-            var response = await _httpClient.GetAsync("baskets");
+            var response = await _httpClient.GetAsync("basket/getbasket");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -111,7 +111,7 @@ namespace Course.Web.Services
 
         public async Task<bool> SaveOrUpdate(BasketViewModel basketViewModel)
         {
-            var response = await _httpClient.PostAsJsonAsync<BasketViewModel>("baskets", basketViewModel);
+            var response = await _httpClient.PostAsJsonAsync<BasketViewModel>("basket/saveorupdatebasket", basketViewModel);
 
             return response.IsSuccessStatusCode;
         }

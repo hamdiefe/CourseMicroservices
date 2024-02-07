@@ -30,7 +30,7 @@ namespace Course.Web.Extensions
             }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
             services.AddHttpClient<IBasketService, BasketService>(opt =>
             {
-                opt.BaseAddress = new Uri(serviceApiSettings.Basket.Path);
+                opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUrl}/{serviceApiSettings.Basket.Path}");
             }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
 
