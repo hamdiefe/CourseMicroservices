@@ -21,7 +21,7 @@ namespace Course.Web.Services
 
         public async Task<bool> DeletePhoto(string photoUrl)
         {
-            var response = await _httpClient.DeleteAsync($"photos?photoUrl={photoUrl}");
+            var response = await _httpClient.DeleteAsync($"photos/photodelete?photoUrl={photoUrl}");
             return response.IsSuccessStatusCode;
         }
 
@@ -42,7 +42,7 @@ namespace Course.Web.Services
 
             multipartContent.Add(new ByteArrayContent(ms.ToArray()), "photo", randonFilename);
 
-            var response = await _httpClient.PostAsync("photos", multipartContent);
+            var response = await _httpClient.PostAsync("photos/photosave", multipartContent);
 
             if (!response.IsSuccessStatusCode)
             {
