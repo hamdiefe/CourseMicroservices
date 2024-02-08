@@ -5,6 +5,8 @@ using Course.Web.Helpers;
 using Course.Web.Models;
 using Course.Web.Services;
 using Course.Web.Services.Interfaces;
+using Course.Web.Validator;
+using FluentValidation.AspNetCore;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -50,7 +52,7 @@ namespace Course.Web
                 opts.Cookie.Name = "coursewebcookie";
             });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CourseCreateInputValidator>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

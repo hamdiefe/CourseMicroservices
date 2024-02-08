@@ -1,7 +1,9 @@
 ﻿using Course.Web.Models.Basket;
+using Course.Web.Models.Discount;
 using Course.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Course.Web.Controllers
@@ -9,6 +11,7 @@ namespace Course.Web.Controllers
     [Authorize]
     public class BasketController : Controller
     {
+
         private readonly ICatalogService _catalogService;
         private readonly IBasketService _basketService;
 
@@ -39,6 +42,25 @@ namespace Course.Web.Controllers
         {
             var result = await _basketService.RemoveBasketItem(courseId);
 
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ApplyDiscount(DiscountApplyInput discountApplyInput)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["discountError"] = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).First();
+                return RedirectToAction(nameof(Index));
+            }
+            var discountStatus = await _basketService.ApplyDiscount(discountApplyInput.Code);
+
+            TempData["discountStatus"] = discountStatus;
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> CancelApplyDiscount()
+        {
+            await _basketService.CancelApplyDiscount();
             return RedirectToAction(nameof(Index));
         }
     }
