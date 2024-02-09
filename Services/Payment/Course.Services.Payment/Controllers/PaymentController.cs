@@ -1,7 +1,7 @@
-﻿using Course.Shared.ControllerBases;
+﻿using Course.Services.Payment.Models;
+using Course.Shared.ControllerBases;
 using Course.Shared.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Course.Services.Payment.Controllers
 {
@@ -10,7 +10,7 @@ namespace Course.Services.Payment.Controllers
     public class PaymentController : CustomBaseController
     {
         [HttpGet]
-        public async Task<IActionResult> ReceivePayment()
+        public IActionResult ReceivePayment(PaymentDto paymentDto)
         {
             return CreateActionResultInstance(Response<NoContent>.Success(200));
         }

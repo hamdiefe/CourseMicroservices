@@ -3,11 +3,8 @@ using Course.Web.Extensions;
 using Course.Web.Handler;
 using Course.Web.Helpers;
 using Course.Web.Models;
-using Course.Web.Services;
-using Course.Web.Services.Interfaces;
 using Course.Web.Validator;
 using FluentValidation.AspNetCore;
-using IdentityModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,9 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Course.Web
 {
