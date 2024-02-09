@@ -77,7 +77,7 @@ namespace Course.Web.Services
 
         public async Task<bool> Delete()
         {
-            var result = await _httpClient.DeleteAsync("baskets");
+            var result = await _httpClient.DeleteAsync("basket/deletebasket");
 
             return result.IsSuccessStatusCode;
         }

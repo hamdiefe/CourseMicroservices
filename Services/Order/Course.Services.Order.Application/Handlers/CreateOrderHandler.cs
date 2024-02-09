@@ -33,7 +33,7 @@ namespace Course.Services.Order.Application.Handlers
             await _dbContext.Orders.AddAsync(order);
             await _dbContext.SaveChangesAsync();
 
-            return Response<CreatedOrderDto>.Success(new CreatedOrderDto { Id = order.Id }, 200);
+            return Response<CreatedOrderDto>.Success(new CreatedOrderDto { OrderId = order.Id }, 200);
         }
     }
 }

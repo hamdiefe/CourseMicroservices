@@ -9,7 +9,7 @@ namespace Course.Services.Payment.Controllers
     [ApiController]
     public class PaymentController : CustomBaseController
     {
-        [HttpGet]
+        [HttpPost]
         public IActionResult ReceivePayment(PaymentDto paymentDto)
         {
             return CreateActionResultInstance(Response<NoContent>.Success(200));
