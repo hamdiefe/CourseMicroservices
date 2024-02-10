@@ -74,6 +74,9 @@ namespace Course.Web.Services
 
         public async Task<List<OrderViewModel>> GetOrder()
         {
+           var asd =  await _httpClient.GetStringAsync("order/getorders");
+
+
             var response = await _httpClient.GetFromJsonAsync<Response<List<OrderViewModel>>>("order/getorders");
 
             return response.Data;
@@ -82,6 +85,8 @@ namespace Course.Web.Services
         public async Task<OrderSuspendViewModel> SuspendOrder(CheckoutInfoInput checkoutInfoInput)
         {
             var basket = await _basketService.Get();
+
+
             var orderCreateInput = new OrderCreateInput()
             {
                 BuyerId = _sharedIdentityService.GetUserId,
@@ -112,7 +117,7 @@ namespace Course.Web.Services
             }
 
             await _basketService.Delete();
-            return new OrderSuspendViewModel() { IsSuccessful = true };
+            return new OrderSuspendViewModel() { IsSuccessful = true};
         }
     }
 }
