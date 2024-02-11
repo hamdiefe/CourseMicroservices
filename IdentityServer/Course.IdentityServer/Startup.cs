@@ -58,6 +58,7 @@ namespace Course.IdentityServer
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
             builder.AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
+            builder.AddExtensionGrantValidator<TokenExchangeExtensionGrantValidator>();
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {

@@ -77,15 +77,23 @@ namespace Course.IdentityServer
                                       IdentityServerConstants.LocalApi.ScopeName,
                                       "roles",
                                       "basket_fullpermission",
-                                      "discount_fullpermission",
                                       "order_fullpermission",
-                                      "payment_fullpermission",
                                       "gateway_fullpermission"},
                     AccessTokenLifetime = 1 * 60 * 60,
                     RefreshTokenExpiration = TokenExpiration.Absolute,
                     AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60) - DateTime.Now ).TotalSeconds,
                     RefreshTokenUsage = TokenUsage.ReUse
-                }
+                },
+                 new Client
+                {
+                   ClientName="Token Exchange Client",
+                    ClientId="TokenExhangeClient",
+                    ClientSecrets= {new Secret("secret".Sha256())},
+                    AllowedGrantTypes= new []{ "urn:ietf:params:oauth:grant-type:token-exchange" },
+                    AllowedScopes={ "discount_fullpermission",
+                                    "payment_fullpermission", 
+                                    IdentityServerConstants.StandardScopes.OpenId }
+                },
             };
     }
 }
