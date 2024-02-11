@@ -1,4 +1,6 @@
-﻿using StackExchange.Redis;
+﻿using MassTransit.RabbitMqTransport.Topology.Conventions;
+using StackExchange.Redis;
+using System.Threading.Tasks;
 
 namespace Course.Services.Basket.Services
 {
@@ -24,6 +26,14 @@ namespace Course.Services.Basket.Services
         {
             var result = _ConnectionMultiplexer.GetDatabase(db);
             return result;
+        }
+
+
+        public async Task<RedisResult> GetKeys()
+        {
+            var keys = await GetDatabase().ExecuteAsync("KEYS", "*");
+
+            return keys;
         }
     }
 }

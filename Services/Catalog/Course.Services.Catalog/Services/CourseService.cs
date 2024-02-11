@@ -106,6 +106,7 @@ namespace Course.Services.Catalog.Services
 
             await _publishEndpoint.Publish<CourseNameChangedEvent>(new CourseNameChangedEvent { CourseId = course.Id, UpdatedName = courseUpdateDto.Name});
 
+
             return Response<NoContent>.Success(204);
         }
         public async Task<Response<NoContent>> DeleteAsync(string id)

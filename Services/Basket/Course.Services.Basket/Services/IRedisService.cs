@@ -1,4 +1,5 @@
 ﻿using StackExchange.Redis;
+using System.Threading.Tasks;
 
 namespace Course.Services.Basket.Services
 {
@@ -6,5 +7,6 @@ namespace Course.Services.Basket.Services
     {
         void Connect();
         IDatabase GetDatabase(int db = 1);
+        Task<RedisResult> GetKeys();
     }
 }

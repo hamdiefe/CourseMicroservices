@@ -39,9 +39,6 @@ namespace Course.Services.Catalog
                 });
             });
 
-
-            services.AddMassTransitHostedService();
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.Authority = Configuration["IdentityServerUrl"];
